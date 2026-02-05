@@ -1,98 +1,47 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<title>Aptal  Yapay Zeka</title>
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,#1e3c72,#2a5298);
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-#app{
-  width:90%;
-  max-width:600px;
-  background:#111;
-  border-radius:10px;
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-}
-#messages{
-  flex:1;
-  overflow-y:auto;
-  margin-bottom:10px;
-}
-.msg{margin-bottom:8px}
-.user{color:#4fc3f7}
-.bot{color:#ffb74d}
-input{
-  padding:10px;
-  border:none;
-  border-radius:6px;
-  outline:none;
-}
-.credit{
-  font-size:11px;
-  text-align:center;
-  margin-top:6px;
-  opacity:.7;
-}
-</style>
-</head>
-<body>
-
-<div id="app">
-  <div id="messages"></div>
-  <input id="input" placeholder="Bir şey yaz ve Enter'a bas">
-  <div class="credit">Deniz Z tarafından yapıldı</div>
-</div>
-
 <script>
-const messages=document.getElementById("messages");
-const input=document.getElementById("input");
+const messages = document.getElementById("messages");
+const input = document.getElementById("input");
 
-function mesajEkle(tur,metin){
-  const d=document.createElement("div");
-  d.className="msg "+tur;
-  d.innerHTML=(tur==="user"?"Sen: ":"Aptal: ")+metin;
-  messages.appendChild(d);
-  messages.scrollTop=messages.scrollHeight;
+function mesajEkle(tur, metin) {
+  const div = document.createElement("div");
+  div.className = "msg " + tur;
+  div.innerHTML = (tur === "user" ? "Sen: " : "Aptal: ") + metin;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
 }
 
-if (
-  text.includes("şiir yaz") ||
-  text.includes("bir şiir yaz") ||
-  text.includes("şiir yazar mısın")
-) {
-  return sacmaSiir();
+function sacmaSiir() {
+  const a = ["Bir sabah uyandım","Pencere açıktı","Saat bana baktı"];
+  const b = ["çünkü simitler düşünüyordu","mantık izin almıştı","kediler konuşuyordu"];
+  const c = ["sonra sustuk.","kimse anlamadı.","hayat devam etti."];
+  return a[Math.random()*a.length|0] + "<br>" +
+         b[Math.random()*b.length|0] + "<br>" +
+         c[Math.random()*c.length|0];
 }
 
+function cevapUret(text) {
+  text = text.toLowerCase();
 
-function cevapUret(text){
-  text=text.toLowerCase();
-  if(text.includes("şiir")) return sacmaSiir();
-  if(text.includes("hikaye")) return "Bir varmış bir yokmuş… ama hangisi varmış ben de karıştırdım.";
-  if(text.includes("şarkı")) return "Bu şarkı kafamda çalıyor ama ritmi biraz yanlış.";
+  if (
+    text.includes("şiir yaz") ||
+    text.includes("bir şiir yaz")
+  ) {
+    return sacmaSiir();
+  }
+
   return "Bu soruyu düşündüm ama düşünürken başka şeye daldım.";
 }
 
-input.addEventListener("keydown",e=>{
-  if(e.key!=="Enter"||!input.value.trim())return;
-  const t=input.value;
-  input.value="";
-  mesajEkle("user",t);
-  setTimeout(()=>{
-    const r=cevapUret(t);
-    mesajEkle("bot",r);
-  },300);
-});
-</script>
+input.onkeydown = function(e) {
+  if (e.key === "Enter" && input.value.trim() !== "") {
+    const text = input.value;
+    input.value = "";
+    mesajEkle("user", text);
 
-</body>
-</html>
+    setTimeout(() => {
+      const reply = cevapUret(text);
+      mesajEkle("bot", reply);
+    }, 300);
+  }
+};
+</script>
