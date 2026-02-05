@@ -1,69 +1,56 @@
-<script>
 const cevapHavuzu = [
-  "Bu soruya yaklaşırken biraz durup düşünmek gerekiyor.",
-  "Açık konuşayım, bu konu sandığından daha derin.",
-  "Bunu tek cümleyle açıklamak pek mümkün değil.",
-  "Sorunun özü güzel ama cevabı o kadar basit değil.",
-  "Bu meseleye farklı bir açıdan bakmak faydalı olabilir.",
-  "Mantık yürütürsek birkaç ihtimal ön plana çıkıyor.",
-  "Bence burada gözden kaçan küçük bir detay var.",
-  "Bu tür sorular genelde insanı düşünmeye zorlar.",
-  "Net konuşmak gerekirse kesin bir yargıya varmak zor.",
-  "Bu konunun cevabı duruma göre değişebilir.",
-  "Bunu düşünürken farklı senaryolar akla geliyor.",
-  "Söylediğin şey mantıksız değil ama eksik.",
-  "Bu soru beklediğimden daha ilginç çıktı.",
-  "Aslında cevap basit gibi duruyor ama değil.",
-  "Bence burada önemli olan bakış açısı.",
-  "Bu konu üzerine saatlerce konuşulabilir.",
-  "Bunu cevaplamak için biraz düşünmek lazım.",
+  "Bu konuya yüzeysel bakmak yerine biraz derinleşmek gerekiyor.",
+  "Açıkçası bu soru düşündüğünden daha karmaşık.",
+  "Bu noktada acele karar vermek doğru olmaz.",
+  "Sorunun özü güzel ama cevabı tek boyutlu değil.",
+  "Bu meseleye farklı bir pencereden bakmak faydalı olabilir.",
+  "Bunu değerlendirirken birkaç ihtimali göz önünde bulundurmak lazım.",
+  "Net bir cevap vermek şu aşamada zor.",
+  "Bu konu sandığından daha fazla detaya sahip.",
+  "Mantık yürütürsek bazı sonuçlara varabiliriz.",
+  "Bu sorunun cevabı duruma göre değişiklik gösterebilir.",
+
+  "Bu ifade kendi içinde çelişkiler barındırıyor olabilir.",
+  "Bu konu hakkında kesin konuşmak kolay değil.",
+  "Bence burada gözden kaçan bir ayrıntı var.",
+  "Bu tarz sorular genelde insanı düşünmeye iter.",
   "Sorunun kendisi cevabından daha dikkat çekici.",
-  "Bu konuda kesin konuşanlara pek güvenmem.",
-  "Açıkçası bu soru beni biraz düşündürdü."
+  "Bu konuyu basite indirgemek pek doğru olmaz.",
+  "Bu yaklaşım mantıklı ama eksik.",
+  "Bu fikir tamamen yanlış değil.",
+  "Burada önemli olan bakış açısı.",
+  "Bu durum farklı şekillerde yorumlanabilir.",
+
+  "Bunu söylerken biraz temkinli olmak gerekir.",
+  "Bu noktada netlik kazanmak zaman alabilir.",
+  "Sorunun arkasında başka bir anlam olabilir.",
+  "Bu konu tek bir cümleyle açıklanamaz.",
+  "Buna kesin bir yanıt vermek zor.",
+  "Bu mesele düşündüğünden daha geniş.",
+  "Burada küçük ama önemli bir detay var.",
+  "Bu soruya farklı açılardan yaklaşılabilir.",
+  "Bu konu genelde yanlış anlaşılıyor.",
+  "Bu yaklaşım kulağa hoş geliyor ama eksik.",
+
+  "Bu konuda herkesin fikri farklı olabilir.",
+  "Bu soru beklediğimden daha ilginç.",
+  "Bu tür sorular kafa karıştırıcı olabilir.",
+  "Bu meseleye net bir sınır çizmek zor.",
+  "Bu durum bağlama göre değişir.",
+  "Bu fikir üzerinde biraz düşünmek gerekir.",
+  "Bu konu sandığın kadar basit değil.",
+  "Bu yaklaşım teoride mantıklı duruyor.",
+  "Bu konuda kesin yargıya varmak zor.",
+  "Bu soru insanı ister istemez düşündürüyor.",
+
+  "Bu noktada varsayımlardan kaçınmak gerekir.",
+  "Bu fikir pratikte farklı sonuçlar doğurabilir.",
+  "Bu konu üzerinde çok fazla yorum yapılabilir.",
+  "Bu mesele tek bir cevaba sahip değil.",
+  "Bu soru net ama cevabı değil.",
+  "Bu durum farklı senaryolar içeriyor.",
+  "Bu konu zamanla daha netleşebilir.",
+  "Bu soruya bakış açısı önemli.",
+  "Bu mesele düşündüğünden daha derin.",
+  "Bu konu hakkında kesin konuşmak riskli."
 ];
-
-// Kullanıcıya söylenen cevapları tutar
-let kullanilanCevaplar = JSON.parse(
-  localStorage.getItem("kullanilanCevaplar")
-) || [];
-
-function benzersizCevapUret() {
-  const kalanlar = cevapHavuzu.filter(
-    c => !kullanilanCevaplar.includes(c)
-  );
-
-  // Hepsi bittiyse sıfırla
-  if (kalanlar.length === 0) {
-    kullanilanCevaplar = [];
-    localStorage.setItem(
-      "kullanilanCevaplar",
-      JSON.stringify(kullanilanCevaplar)
-    );
-    return benzersizCevapUret();
-  }
-
-  const secilen = kalanlar[Math.floor(Math.random() * kalanlar.length)];
-  kullanilanCevaplar.push(secilen);
-  localStorage.setItem(
-    "kullanilanCevaplar",
-    JSON.stringify(kullanilanCevaplar)
-  );
-  return secilen;
-}
-
-// MESAJ GÖNDERME
-input.addEventListener("keydown", e => {
-  if (e.key !== "Enter" || !input.value.trim()) return;
-
-  const text = input.value.trim();
-  input.value = "";
-
-  mesajEkle("user", text);
-
-  const reply = benzersizCevapUret();
-
-  setTimeout(() => {
-    mesajEkle("bot", reply);
-  }, 400);
-});
-</script>
