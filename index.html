@@ -1,12 +1,40 @@
-if (text.toLowerCase().includes("şiir")) {
-  reply = sacmaSiirUret();
+<script>
+function sacmaSiirUret() {
+  const a = [
+    "Bir sabah uyandım, çay soğuktu",
+    "Pencere açıktı ama rüzgar kararsızdı",
+    "Saat bana bakıyordu",
+    "Ayakkabım neden buradaydı bilmiyorum"
+  ];
+  const b = [
+    "çünkü simitler düşünüyordu",
+    "kediler ekonomi konuşuyordu",
+    "mantık o gün izin almıştı",
+    "aklım cebimde buruşmuştu"
+  ];
+  const c = [
+    "sonra her şey sustu.",
+    "kimse anlamadı.",
+    "ben de anlamış gibi yaptım.",
+    "hayat devam etti."
+  ];
+  return a[Math.floor(Math.random()*a.length)] + "<br>" +
+         b[Math.floor(Math.random()*b.length)] + "<br>" +
+         c[Math.floor(Math.random()*c.length)];
 }
-else if (text.toLowerCase().includes("hikaye")) {
-  reply = "Bir varmış bir yokmuş… aslında var mıydı emin değilim ama anlatıyorum.";
+
+function cevapUret(text) {
+  text = text.toLowerCase();
+
+  if (text.includes("şiir")) {
+    return sacmaSiirUret();
+  }
+  if (text.includes("hikaye")) {
+    return "Bir varmış bir yokmuş… ama hangisi varmış emin değilim.";
+  }
+  if (text.includes("şarkı")) {
+    return "Bu şarkı kulağıma hoş geliyor ama nedenini bilmiyorum.";
+  }
+  return "Bu soruya baktım, düşündüm, yine de garip hissettim.";
 }
-else if (text.toLowerCase().includes("şarkı")) {
-  reply = "Bu şarkı şu an kafamda çalıyor ama sözleri bana bile garip geliyor.";
-}
-else {
-  reply = benzersizCevap(cevapHavuzu);
-}
+</script>
