@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Aptal 🤪 Yapay Zeka</title>
+<title>Aptal  Yapay Zeka</title>
 <style>
 body{
   margin:0;
@@ -65,14 +65,14 @@ function mesajEkle(tur,metin){
   messages.scrollTop=messages.scrollHeight;
 }
 
-function sacmaSiir(){
-  const a=["Bir sabah uyandım","Pencere açıktı","Saat bana baktı","Ayakkabım kayıptı"];
-  const b=["çünkü simitler düşünüyordu","mantık izin almıştı","kediler ekonomi konuşuyordu","aklım masadaydı"];
-  const c=["sonra sustuk.","kimse anlamadı.","çay soğudu.","hayat devam etti."];
-  return a[Math.random()*a.length|0]+"<br>"+
-         b[Math.random()*b.length|0]+"<br>"+
-         c[Math.random()*c.length|0];
+if (
+  text.includes("şiir yaz") ||
+  text.includes("bir şiir yaz") ||
+  text.includes("şiir yazar mısın")
+) {
+  return sacmaSiir();
 }
+
 
 function cevapUret(text){
   text=text.toLowerCase();
