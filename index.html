@@ -2,19 +2,19 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Aptal 🤪 Yapay Zeka</title>
+<title>Aptal 🤪 Bot</title>
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#1e3c72,#2a5298);
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  font-family:Arial, sans-serif;
   color:#fff;
 }
-#app{
+#box{
   width:90%;
   max-width:600px;
   background:#111;
@@ -37,9 +37,9 @@ input{
   border-radius:6px;
   outline:none;
 }
-.credit{
-  text-align:center;
+.footer{
   font-size:11px;
+  text-align:center;
   opacity:.7;
   margin-top:6px;
 }
@@ -47,10 +47,10 @@ input{
 </head>
 <body>
 
-<div id="app">
+<div id="box">
   <div id="messages"></div>
   <input id="input" placeholder="Yaz ve Enter'a bas">
-  <div class="credit">Deniz Z tarafından yapıldı</div>
+  <div class="footer">Deniz Z tarafından yapıldı</div>
 </div>
 
 <script>
@@ -60,58 +60,54 @@ const input = document.getElementById("input");
 // === HAFIZA ===
 let hafiza = JSON.parse(localStorage.getItem("aptal_hafiza")) || [];
 
+// ESKİ MESAJLARI YÜKLE
+hafiza.forEach(m => ekle(m.tip, m.metin));
+
 function kaydet(){
   localStorage.setItem("aptal_hafiza", JSON.stringify(hafiza));
 }
 
-function mesajEkle(tur, metin){
+function ekle(tip, metin){
   const d = document.createElement("div");
-  d.className = "msg " + tur;
-  d.innerHTML = (tur==="user"?"Sen: ":"Aptal: ") + metin;
+  d.className = "msg " + tip;
+  d.textContent = (tip==="user" ? "Sen: " : "Aptal: ") + metin;
   messages.appendChild(d);
   messages.scrollTop = messages.scrollHeight;
 }
 
-// === SAYFA AÇILINCA ESKİ MESAJLARI YÜKLE ===
-hafiza.forEach(m => mesajEkle(m.tur, m.metin));
+// === BOT BEYNİ ===
+function cevap(text){
+  text = text.toLowerCase();
 
-// === SAÇMA AMA ANLAMLI ŞİİR ===
-function sacmaSiir(){
-  const a=["Bir sabah uyandım","Pencere açıktı","Saat bana baktı"];
-  const b=["çünkü simitler düşünüyordu","mantık izin almıştı","kediler konuşuyordu"];
-  const c=["sonra sustuk.","kimse anlamadı.","hayat devam etti."];
-  return a[Math.random()*a.length|0]+"<br>"+
-         b[Math.random()*b.length|0]+"<br>"+
-         c[Math.random()*c.length|0];
+  if(text.includes("şiir yaz")){
+    return "Bir şeyler yazardım ama kafam biraz dağınık bugün.";
+  }
+  if(text.includes("kaç")){
+    return "1453.";
+  }
+  return "Bunu düşündüm… sonra düşünmeyi unuttum.";
 }
 
-// === BEYİN ===
-function cevapUret(text){
-  text=text.toLowerCase();
-  if(text.includes("şiir yaz")) return sacmaSiir();
-  if(text.includes("hikaye")) return "Bir varmış bir yokmuş… ama ben de emin değilim.";
-  return "Bunu düşündüm ama düşünürken kafam karıştı.";
-}
+// === ENTER %100 ÇALIŞIR ===
+input.onkeydown = function(e){
+  if(e.key === "Enter"){
+    const text = input.value.trim();
+    if(text === "") return;
 
-// === ENTER ÇALIŞIYOR ===
-input.addEventListener("keydown", e=>{
-  if(e.key!=="Enter" || !input.value.trim()) return;
+    input.value = "";
 
-  const text = input.value;
-  input.value="";
-
-  hafiza.push({tur:"user", metin:text});
-  mesajEkle("user", text);
-
-  setTimeout(()=>{
-    const reply = cevapUret(text);
-    hafiza.push({tur:"bot", metin:reply});
-    mesajEkle("bot", reply);
+    ekle("user", text);
+    hafiza.push({tip:"user", metin:text});
     kaydet();
-  },300);
 
-  kaydet();
-});
+    setTimeout(()=>{
+      const r = cevap(text);
+      ekle("bot", r);
+      hafiza.push({tip:"bot", metin:r});
+      kaydet();
+    }, 200);
+  }
+};
 </script>
 
 </body>
