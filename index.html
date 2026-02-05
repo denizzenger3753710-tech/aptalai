@@ -1,31 +1,12 @@
-function sacmaSiirUret() {
-  const baslangic = [
-    "Bir sabah uyandım, çay soğuktu",
-    "Pencere açıktı ama rüzgar kararsızdı",
-    "Saat duvarda bana bakıyordu",
-    "Ayakkabım neden burada bilmiyorum",
-    "Bugün her şey biraz garipti"
-  ];
-
-  const orta = [
-    "çünkü simitler felsefe yapıyordu",
-    "ve kediler ekonomi konuşuyordu",
-    "ben sustum, duvar cevap verdi",
-    "mantık o gün izin almıştı",
-    "aklım cebimde buruşmuştu"
-  ];
-
-  const bitis = [
-    "sonra çay tekrar soğudu.",
-    "kimse bir şey anlamadı.",
-    "ben de anlamış gibi yaptım.",
-    "ve hayat devam etti.",
-    "işte böyle bir gündü."
-  ];
-
-  return (
-    baslangic[Math.floor(Math.random()*baslangic.length)] + "\n" +
-    orta[Math.floor(Math.random()*orta.length)] + "\n" +
-    bitis[Math.floor(Math.random()*bitis.length)]
-  );
+if (text.toLowerCase().includes("şiir")) {
+  reply = sacmaSiirUret();
+}
+else if (text.toLowerCase().includes("hikaye")) {
+  reply = "Bir varmış bir yokmuş… aslında var mıydı emin değilim ama anlatıyorum.";
+}
+else if (text.toLowerCase().includes("şarkı")) {
+  reply = "Bu şarkı şu an kafamda çalıyor ama sözleri bana bile garip geliyor.";
+}
+else {
+  reply = benzersizCevap(cevapHavuzu);
 }
