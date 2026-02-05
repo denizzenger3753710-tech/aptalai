@@ -1,56 +1,31 @@
-const cevapHavuzu = [
-  "Bu konuya yüzeysel bakmak yerine biraz derinleşmek gerekiyor.",
-  "Açıkçası bu soru düşündüğünden daha karmaşık.",
-  "Bu noktada acele karar vermek doğru olmaz.",
-  "Sorunun özü güzel ama cevabı tek boyutlu değil.",
-  "Bu meseleye farklı bir pencereden bakmak faydalı olabilir.",
-  "Bunu değerlendirirken birkaç ihtimali göz önünde bulundurmak lazım.",
-  "Net bir cevap vermek şu aşamada zor.",
-  "Bu konu sandığından daha fazla detaya sahip.",
-  "Mantık yürütürsek bazı sonuçlara varabiliriz.",
-  "Bu sorunun cevabı duruma göre değişiklik gösterebilir.",
+function sacmaSiirUret() {
+  const baslangic = [
+    "Bir sabah uyandım, çay soğuktu",
+    "Pencere açıktı ama rüzgar kararsızdı",
+    "Saat duvarda bana bakıyordu",
+    "Ayakkabım neden burada bilmiyorum",
+    "Bugün her şey biraz garipti"
+  ];
 
-  "Bu ifade kendi içinde çelişkiler barındırıyor olabilir.",
-  "Bu konu hakkında kesin konuşmak kolay değil.",
-  "Bence burada gözden kaçan bir ayrıntı var.",
-  "Bu tarz sorular genelde insanı düşünmeye iter.",
-  "Sorunun kendisi cevabından daha dikkat çekici.",
-  "Bu konuyu basite indirgemek pek doğru olmaz.",
-  "Bu yaklaşım mantıklı ama eksik.",
-  "Bu fikir tamamen yanlış değil.",
-  "Burada önemli olan bakış açısı.",
-  "Bu durum farklı şekillerde yorumlanabilir.",
+  const orta = [
+    "çünkü simitler felsefe yapıyordu",
+    "ve kediler ekonomi konuşuyordu",
+    "ben sustum, duvar cevap verdi",
+    "mantık o gün izin almıştı",
+    "aklım cebimde buruşmuştu"
+  ];
 
-  "Bunu söylerken biraz temkinli olmak gerekir.",
-  "Bu noktada netlik kazanmak zaman alabilir.",
-  "Sorunun arkasında başka bir anlam olabilir.",
-  "Bu konu tek bir cümleyle açıklanamaz.",
-  "Buna kesin bir yanıt vermek zor.",
-  "Bu mesele düşündüğünden daha geniş.",
-  "Burada küçük ama önemli bir detay var.",
-  "Bu soruya farklı açılardan yaklaşılabilir.",
-  "Bu konu genelde yanlış anlaşılıyor.",
-  "Bu yaklaşım kulağa hoş geliyor ama eksik.",
+  const bitis = [
+    "sonra çay tekrar soğudu.",
+    "kimse bir şey anlamadı.",
+    "ben de anlamış gibi yaptım.",
+    "ve hayat devam etti.",
+    "işte böyle bir gündü."
+  ];
 
-  "Bu konuda herkesin fikri farklı olabilir.",
-  "Bu soru beklediğimden daha ilginç.",
-  "Bu tür sorular kafa karıştırıcı olabilir.",
-  "Bu meseleye net bir sınır çizmek zor.",
-  "Bu durum bağlama göre değişir.",
-  "Bu fikir üzerinde biraz düşünmek gerekir.",
-  "Bu konu sandığın kadar basit değil.",
-  "Bu yaklaşım teoride mantıklı duruyor.",
-  "Bu konuda kesin yargıya varmak zor.",
-  "Bu soru insanı ister istemez düşündürüyor.",
-
-  "Bu noktada varsayımlardan kaçınmak gerekir.",
-  "Bu fikir pratikte farklı sonuçlar doğurabilir.",
-  "Bu konu üzerinde çok fazla yorum yapılabilir.",
-  "Bu mesele tek bir cevaba sahip değil.",
-  "Bu soru net ama cevabı değil.",
-  "Bu durum farklı senaryolar içeriyor.",
-  "Bu konu zamanla daha netleşebilir.",
-  "Bu soruya bakış açısı önemli.",
-  "Bu mesele düşündüğünden daha derin.",
-  "Bu konu hakkında kesin konuşmak riskli."
-];
+  return (
+    baslangic[Math.floor(Math.random()*baslangic.length)] + "\n" +
+    orta[Math.floor(Math.random()*orta.length)] + "\n" +
+    bitis[Math.floor(Math.random()*bitis.length)]
+  );
+}
