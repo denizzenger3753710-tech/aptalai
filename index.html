@@ -2,109 +2,94 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Aptal 🤪 Yapay Zeka</title>
+<title>Aptal AI Bot</title>
 <style>
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#343541;color:#fff;height:100vh;display:flex;justify-content:center;align-items:center}
-#app{width:100%;max-width:900px;height:95vh;background:#444654;border-radius:10px;display:flex;flex-direction:column;overflow:hidden}
-#header{padding:12px;background:#202123;font-weight:bold;text-align:center}
-#messages{flex:1;padding:15px;overflow-y:auto}
-.msg{max-width:80%;margin-bottom:10px;padding:10px;border-radius:8px;line-height:1.4}
-.user{background:#0b93f6;align-self:flex-end}
-.bot{background:#3e3f4b;align-self:flex-start}
-#inputArea{display:flex;padding:10px;background:#202123}
-#input{flex:1;padding:10px;border:none;border-radius:6px;outline:none}
-#send{margin-left:8px;padding:10px 14px;border:none;border-radius:6px;background:#19c37d;color:#000;cursor:pointer}
-#controls{display:flex;gap:10px;padding:8px;background:#202123;font-size:12px}
-.credit{text-align:center;font-size:11px;opacity:.6;padding:5px}
+body { font-family: Arial, sans-serif; background:#f0f0f0; padding:20px; }
+h1 { color:#333; margin-bottom:5px; }
+#ust { font-weight:bold; margin-bottom:20px; }
+button, select, input { padding:5px; margin:5px 0; width:100%; max-width:400px; }
+#cevap { margin-top:20px; font-weight:bold; white-space:pre-wrap; }
+.container { max-width:600px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
 </style>
 </head>
 <body>
-<div id="app">
-  <div id="header">🤪 Aptal Yapay Zeka</div>
-  <div id="messages"></div>
-  <div id="controls">
-    <button onclick="toggleSes()" id="sesBtn">🔊 Ses Açık</button>
-  </div>
-  <div id="inputArea">
-    <input id="input" placeholder="Bir şey yaz…">
-    <button id="send">Gönder</button>
-  </div>
-  <div class="credit">Deniz Z tarafından yapıldı</div>
+<div class="container">
+  <div id="ust">DENİZ Z TARAFINDAN YAPILDI</div>
+  <h1>Aptal AI Bot</h1>
+
+  <label for="mod">Mod Seç:</label>
+  <select id="mod">
+    <option value="mutlu">Mutlu</option>
+    <option value="sinirli">Sinirli</option>
+    <option value="uzgun">Üzgün</option>
+  </select><br>
+
+  <label for="mesaj">Kelimenizi Girin:</label>
+  <input type="text" id="mesaj" placeholder="Tek kelime girin"><br>
+
+  <button onclick="gonder()">Gönder</button>
+
+  <div id="cevap"></div>
 </div>
 
 <script>
-const messages=document.getElementById('messages');
-const input=document.getElementById('input');
-const send=document.getElementById('send');
+// ======= BEYİN =======
+const kelimeDagarcigi = {
+  mutlu: Array.from({length:1000},(_,i)=>`kelime${i+1}`),
+  sinirli: Array.from({length:1000},(_,i)=>`kelime${i+1}`),
+  uzgun: Array.from({length:1000},(_,i)=>`kelime${i+1}`)
+};
 
-let sesAcik=true;
+const beyin = {
+  mutlu: new Set(),
+  sinirli: new Set(),
+  uzgun: new Set(),
+  girilen: new Set()
+};
 
-const hafiza=JSON.parse(localStorage.getItem('aptal_chat'))||[];
-hafiza.forEach(m=>mesajEkle(m.t,m.x));
-
-function kaydet(){localStorage.setItem('aptal_chat',JSON.stringify(hafiza));}
-
-function mesajEkle(t,x){
-  const d=document.createElement('div');
-  d.className='msg '+t;
-  d.innerHTML=x;
-  messages.appendChild(d);
-  messages.scrollTop=messages.scrollHeight;
+// ======= FONKSİYONLAR =======
+function kelimeSec(mod){
+  let available = kelimeDagarcigi[mod].filter(k => !beyin[mod].has(k));
+  if(available.length===0) return "(tüm kelimeler kullanıldı)";
+  const secilen = available[Math.floor(Math.random()*available.length)];
+  beyin[mod].add(secilen);
+  return secilen;
 }
 
-// === DEV KELİME BANKASI (1000+) ===
-const kelimeBankasi=[];
-for(let i=1;i<=1200;i++){
-  kelimeBankasi.push("Bu konu üzerine düşündüm ve sonuç tam olarak netleşmedi #"+i);
+function cevapOlustur(mod,uzunluk=20){
+  const kelimeler=[];
+  for(let i=0;i<uzunluk;i++){
+    const k = kelimeSec(mod);
+    if(k==="(tüm kelimeler kullanıldı)") break;
+    kelimeler.push(k);
+  }
+  if(mod==="sinirli") kelimeler.push("hala cevap veriyorum!");
+  return kelimeler.join(" ");
 }
 
-function rastgeleCevap(){
-  return kelimeBankasi[Math.floor(Math.random()*kelimeBankasi.length)];
+// ======= ANA FONKSİYON =======
+function cevapUret(m,mod="mutlu"){
+  m = m.toLowerCase();
+
+  if(beyin.girilen.has(m)) return "Bu kelimeyi zaten kullandın!";
+  beyin.girilen.add(m);
+
+  switch(mod){
+    case "mutlu": return "Mutlu: "+cevapOlustur("mutlu");
+    case "sinirli": return "Sinirli: "+cevapOlustur("sinirli");
+    case "uzgun": return "Üzgün: "+cevapOlustur("uzgun");
+    default: return "Mutlu: "+cevapOlustur("mutlu");
+  }
 }
 
-function hikayeUret(){
-  return "Bir varmış bir yokmuş. Aslında varmış ama biraz kararsızmış. Günlerden bir gün, bu hikayenin kahramanı düşünmeye başlamış ve düşünürken konuyu kaybetmiş. Yine de hikâye burada bitmemiş, çünkü anlatan kişi hâlâ konuşuyormuş.";
-}
-
-function cevapUret(text){
-  text=text.toLowerCase();
-  if(text.includes('hikaye')) return hikayeUret();
-  if(text.includes('şiir')) return "Bugün kelimeler sıraya girdi ama anlam biraz geç kaldı.";
-  return rastgeleCevap();
-}
-
-function konus(text){
-  if(!sesAcik||!('speechSynthesis'in window))return;
-  const u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,''));
-  u.lang='tr-TR';
-  u.rate=0.95;u.pitch=1;
-  speechSynthesis.cancel();speechSynthesis.speak(u);
-}
-
-function toggleSes(){
-  sesAcik=!sesAcik;
-  document.getElementById('sesBtn').textContent=sesAcik?'🔊 Ses Açık':'🔇 Ses Kapalı';
-}
-
+// ======= BUTON =======
 function gonder(){
-  const t=input.value.trim();
-  if(!t)return;
-  input.value='';
-  mesajEkle('user','Sen: '+t);
-  hafiza.push({t:'user',x:'Sen: '+t});
-  kaydet();
-
-  setTimeout(()=>{
-    const r=cevapUret(t);
-    mesajEkle('bot','Aptal: '+r);
-    hafiza.push({t:'bot',x:'Aptal: '+r});
-    kaydet();
-    konus(r);
-  },300);
+  const mesaj = document.getElementById("mesaj").value.trim();
+  const mod = document.getElementById("mod").value;
+  if(!mesaj){ alert("Kelime girin!"); return; }
+  document.getElementById("cevap").innerText = cevapUret(mesaj,mod);
+  document.getElementById("mesaj").value = "";
 }
-
-send.onclick=gonder;
-input.addEventListener('keydown',e=>{if(e.key==='Enter')gonder();});
 </script>
 </body>
 </html>
